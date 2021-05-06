@@ -7,7 +7,8 @@ const app = express();
 
 mongoose.connect('mongodb://localhost/activitat2', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
-const juguetes = require("./routes/juguetes");
+const juguetes = require('./routes/juguetes');
+const cartas = require('./routes/cartas');
 
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/juguetes', juguetes);
+app.use('/cartas', cartas);
 
 app.get('/', (req, res) => {
     if (req.reyes.paje) {

@@ -2,6 +2,18 @@ const express = require('express');
 const router = express.Router();
 const Juguete = require("../models/juguetes");
 
+router.use((req, res, next) => {
+
+    if (req.session.paje) {
+        next();
+    }
+    else {
+        req.reyes.error = 'Inicia sesión para poder ver este contenido';
+        res.render('landingpage', req.reyes);
+    }
+
+});
+
 router.get('/', (req, res) => {
 
     Juguete.find().exec((err, documents) => {
