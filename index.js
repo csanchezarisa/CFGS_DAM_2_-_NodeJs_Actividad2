@@ -6,6 +6,8 @@ const app = express();
 
 mongoose.connect('mongodb://localhost/activitat2', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
+const juguetes = require("./routes/juguetes");
+
 app.set('view engine', 'pug');
 app.set('views', './views');
 
@@ -19,6 +21,8 @@ app.use(express.static('public'));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+app.use('/juguetes', juguetes);
 
 app.get('/', (req, res) => {
     res.render('landingpage');

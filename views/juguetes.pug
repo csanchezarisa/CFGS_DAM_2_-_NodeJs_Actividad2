@@ -1,0 +1,32 @@
+extends layout.pug 
+
+block content 
+    div.container.m-5
+        div.row
+            div.offset-3.col-8
+                h3.text-muted.mb-5 Lista de juguetes
+                a(href="/juguetes/create", role="button", aria-pressed="true").btn.btn-warning.btn-sm.active.mr-3
+                    img(src="/images/pencil.svg")
+                if (sinJuguetes)
+                    p.font-weight-bold No se han encontrado juguetes
+                else
+                    table.table.table-striped.mt-5
+                        thead
+                            tr
+                                th nombre
+                                th precio
+                                th peso
+                                th stock
+                                th
+                        tbody
+                            for juguete in juguetes
+                                tr
+                                    td #{juguete.nombre}
+                                    td #{juguete.precio}
+                                    td #{juguete.peso}
+                                    td #{juguete.stock}
+                                    td
+                                        a.btn.btn-primary.btn-sm.active.mr-3(href="/juguetes/" + juguete._id + "/edit/", role="button", aria-pressed="true")
+                                            img(src="/images/pencil.svg")
+                                        a.btn.btn-danger.btn-sm.active(href="/juguetes/" + juguete._id + "/delete/", role="button", aria-pressed="true")
+                                            img(src="/images/trash.svg")

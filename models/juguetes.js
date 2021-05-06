@@ -4,7 +4,7 @@ const jugueteSchema = mongoose.Schema({
     nombre: {
         type: String,
         required: [true, 'El nombre es obligatório'],
-        match: [/[A-Z0-9-]{80}/, "El formato del nombre no es correcto"]
+        match: [/[A-Z0-9-]{1,80}/, "El formato del nombre no es correcto"]
     },
     precio: {
         type: Number,

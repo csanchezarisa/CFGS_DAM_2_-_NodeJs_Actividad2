@@ -1,0 +1,21 @@
+extends layout.pug
+
+block content
+    div.container.m-5
+        div.row
+            div.offset-4.col-6
+                h3.text-muted.mb-5 Datos del juguete
+                form.form-horizontal(role="form", action="/juguetes/" + juguete._id, method="post")
+                    div.form-group
+                        input.form-control.input-lg.panel-primary#nombre(type="text", name="nombre", placeholder="Nombre", value=juguete.nombre)
+                    div.form-group
+                        input.form-control.input-lg.panel-primary#precio(type="number", name="precio", placeholder="Precio", value=juguete.precio)
+                    div.form-group
+                        input.form-control.input-lg.panel-primary#peso(type="number", name="peso", placeholder="Peso", value=juguete.peso)
+                    div.form-group
+                        input.form-control.input-lg.panel-primary#stock(type="number", name="stock", placeholder="Stock", value=juguete.stock)
+                    div.form-group.text-right.mt-5
+                        button.btn.btn-primary(type="submit") Enviar
+                if(errores)
+                    for error in errores
+                        div.alert.alert-danger #{error}
