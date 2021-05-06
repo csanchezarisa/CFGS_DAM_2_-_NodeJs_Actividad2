@@ -23,10 +23,26 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+app.use((req, res, next) => {
+
+    req.reyes = {};
+
+    if (req.session.paje) {
+        req.reyes.paje = req.session.paje;
+    }
+
+    next();
+});
+
 app.use('/juguetes', juguetes);
 
 app.get('/', (req, res) => {
-    res.render('landingpage');
+    if (req.reyes.paje) {
+        res.redirect('/juguetes');
+    }
+    else {
+        res.render('landingpage', req.reyes);
+    }
 });
 
 app.post('/login', (req, res) => {
@@ -41,26 +57,30 @@ app.post('/login', (req, res) => {
 
             if (document) {
                 req.session.paje = document._id;
+                req.reyes.paje = document._id;
                 res.redirect('/juguetes');
             }
             else {
-                res.render('landingpage', {
-                    error: "Datos de inicio de sesión incorrectos"
-                })
+                req.reyes.error = "Datos de inicio de sesión incorrectos";
+                res.render('landingpage', req.reyes);
             }
 
         }
         else {
-            res.render('landingpage', {
-                error: "Se ha producido un error"
-            })
+            req.reyes.error = "Se ha producido un error";
+            res.render('landingpage', req.reyes);
         }
 
     });
 });
 
+app.get('/logout', (req, res) => {
+    req.session.destroy()
+    res.redirect('/');
+});
+
 app.all('*', (req, res) => {
-    res.render('error');
+    res.render('error', req.reyes);
 });
 
 app.listen(3000);

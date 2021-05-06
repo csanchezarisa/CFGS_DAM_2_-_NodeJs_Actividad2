@@ -18,4 +18,10 @@ html
 						a(href="/juguetes").nav-link Juguetes
 					li.nav-item
 						a(href="/cartas").nav-link Cartas
+					if (paje) 
+						li.nav-item
+							a(href="/logout").nav-link Salir
+					else 
+						li.nav-item
+							a(href="/").nav-link Acceso
 		block content

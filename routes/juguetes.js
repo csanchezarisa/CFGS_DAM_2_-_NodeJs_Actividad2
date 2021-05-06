@@ -7,14 +7,12 @@ router.get('/', (req, res) => {
     Juguete.find().exec((err, documents) => {
 
         if (!err && documents.length > 0) {
-            res.render('juguetes', {
-                juguetes: documents
-            });
+            req.reyes.juguetes = documents
+            res.render('juguetes', req.reyes);
         }
         else {
-            res.render('juguetes', {
-                sinJuguetes: true
-            });
+            req.reyes.sinJuguetes = true;
+            res.render('juguetes', req.reyes);
         }
 
     });
@@ -40,23 +38,23 @@ router.post('/', (req, res) => {
             for (let campo of campos) {
                 errores.push(err.errors[campo].message);
             }
-
-            res.render('juguetecreate', { errores: errores });
+            
+            req.reyes.errores = errores;
+            res.render('juguetecreate', req.reyes);
         }
     });
 });
 
 router.get('/create', (req, res) => {
-    res.render('juguetecreate');
+    res.render('juguetecreate', req.reyes);
 });
 
 router.get('/:juguete/edit', (req, res) => {
 
     Juguete.findById(req.params.juguete, (err, document) => {
         if (!err) {
-            res.render('jugueteedit', {
-                juguete: document
-            });
+            req.reyes.juguete = document;
+            res.render('jugueteedit', req.reyes);
         }
         else {
             res.redirect('/juguetes');
@@ -88,7 +86,9 @@ router.post('/:juguete', (req, res) => {
 				errores.push(err.errors[campo].message);
 			}
 
-			res.render('jugueteedit', { contacto: datosContactoEditado, errores: errores });
+            req.reyes.contacto = datosJuguete;
+            req.reyes.errores = errores;
+			res.render('jugueteedit', req.reyes);
 			
 		}
     });
