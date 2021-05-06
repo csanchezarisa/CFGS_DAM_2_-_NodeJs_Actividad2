@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const Paje = require('./models/pajes');
 
 const app = express();
 
@@ -29,7 +30,33 @@ app.get('/', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    res.redirect('/juguetes');
+    let filter = {
+        usuario: req.body.username,
+        password: req.body.pass
+    };
+
+    Paje.findOne(filter, (err, document) => {
+
+        if (!err) {
+
+            if (document) {
+                req.session.paje = document._id;
+                res.redirect('/juguetes');
+            }
+            else {
+                res.render('landingpage', {
+                    error: "Datos de inicio de sesión incorrectos"
+                })
+            }
+
+        }
+        else {
+            res.render('landingpage', {
+                error: "Se ha producido un error"
+            })
+        }
+
+    });
 });
 
 app.all('*', (req, res) => {
