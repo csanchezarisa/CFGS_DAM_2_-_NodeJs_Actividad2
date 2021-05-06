@@ -1,0 +1,21 @@
+doctype html
+html
+	head
+		meta(charset="utf-8")
+		title Reyes fachas
+		link(rel="icon", type="image/png", href="/images/favicon.png")
+		link(rel="stylesheet", href="/css/bootstrap.min.css")
+		script(src="/js/jquery.min.js")
+		script(src="/js/popper.min.js")
+		script(src="/js/bootstrap.min.js")
+	body.bg-success
+		nav.navbar.navbar-toggleable.navbar-inverse.bg-inverse
+			a.navbar-brand(href="/")
+				img(src="/images/favicon.png", alt="favicon", width="100px")
+			div.collapse.navbar-collapse#navbarCollapse
+				ul.navbar-nav.mr-auto
+					li.nav-item
+						a(href="/juguetes").nav-link Juguetes
+					li.nav-item
+						a(href="/cartas").nav-link Cartas
+		block content
