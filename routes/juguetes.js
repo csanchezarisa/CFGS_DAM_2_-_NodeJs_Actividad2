@@ -16,20 +16,47 @@ router.use((req, res, next) => {
 
 router.get('/', (req, res) => {
 
-    Juguete.find().exec((err, documents) => {
+    let filter = {};
+    let pagina = 1;
+    let paginas = 0;
 
-        if (!err && documents.length > 0) {
-            req.reyes.juguetes = documents
-            res.render('juguetes', req.reyes);
-        }
-        else {
-            req.reyes.sinJuguetes = true;
-            res.render('juguetes', req.reyes);
-        }
+    if (req.query.search) {
+        let exp = new RegExp(req.query.search, 'i');
+		filter.nombre = exp;
+    }
+
+    if (req.query.pagina) {
+        pagina = req.query.pagina;
+    }
+
+    Juguete.find(filter, (err, documents) => {
+        paginas = documents.length / 10;
+
+        Juguete.find(filter).limit(10).skip((pagina - 1) * 10).exec((err, documents) => {
+
+            if (!err && documents.length > 0) {
+                req.reyes.juguetes = documents
+                req.reyes.pagina = pagina;
+                req.reyes.paginas = Math.ceil(paginas);
+                req.reyes.paginasArray = createPaginasArray(req.reyes.paginas);
+                res.render('juguetes', req.reyes);
+            }
+            else {
+                req.reyes.sinJuguetes = true;
+                res.render('juguetes', req.reyes);
+            }
+        });
 
     });
-
 });
+
+function createPaginasArray(paginas) {
+    let array = [];
+    for (i = 1; i <= paginas; i++) {
+        array.push(i);
+    }
+    return array;
+}
 
 router.post('/', (req, res) => {
     let nuevoJuguete = new Juguete({

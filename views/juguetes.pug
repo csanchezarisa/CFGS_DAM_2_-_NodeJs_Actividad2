@@ -5,6 +5,11 @@ block content
         div.row
             div.offset-3.col-8
                 h3.text-muted.mb-5 Lista de juguetes
+                form.form-horizontal(role="form", action="/juguetes", method="get")
+                    div.input-group.mb-3
+                        input.form-control(type="text", name="search", placeholder="Buscar juguete...")
+                        div.input-group-append
+                            button.btn.btn-primary(type="submit") Buscar
                 a(href="/juguetes/create", role="button", aria-pressed="true").btn.btn-warning.btn-sm.active.mr-3
                     img(src="/images/pencil.svg")
                 if (sinJuguetes)
@@ -30,3 +35,32 @@ block content
                                             img(src="/images/pencil.svg")
                                         a.btn.btn-danger.btn-sm.active(href="/juguetes/" + juguete._id + "/delete/", role="button", aria-pressed="true")
                                             img(src="/images/trash.svg")
+                    nav(aria-label='Navigation')
+                        ul.pagination
+                            if (pagina == 1 || !pagina)
+                                li.page-item.disabled
+                                    a.page-link(href='/juguetes/?pagina=1' aria-label='Previous')
+                                        span(aria-hidden='true') &laquo;
+                                        span.sr-only Previous
+                            else 
+                                li.page-item
+                                    a.page-link(href='/juguetes/?pagina=1' aria-label='Previous')
+                                        span(aria-hidden='true') &laquo;
+                                        span.sr-only Previous
+                            for paginaArray in paginasArray 
+                                if (paginaArray == pagina || !pagina)
+                                    li.page-item.active
+                                        a.page-link(href='/juguetes/?pagina=' + paginaArray) #{paginaArray} 
+                                else
+                                    li.page-item 
+                                        a.page-link(href='/juguetes/?pagina=' + paginaArray) #{paginaArray}  
+                            if (pagina == paginas)
+                                li.page-item.disabled
+                                    a.page-link(href='/juguetes/?pagina=' + paginas, aria-label='Next')
+                                        span(aria-hidden='true') &raquo;
+                                        span.sr-only Next
+                            else 
+                                li.page-item
+                                    a.page-link(href='/juguetes/?pagina=' + paginas, aria-label='Next')
+                                        span(aria-hidden='true') &raquo;
+                                        span.sr-only Next
