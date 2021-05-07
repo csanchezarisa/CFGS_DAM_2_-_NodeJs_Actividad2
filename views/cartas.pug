@@ -20,7 +20,7 @@ block content
                                 tr
                                     td #{carta.nino.nombreCompleto}
                                     td
-                                        a.btn.btn-primary.btn-sm.active.mr-3(href="/cartas/" + carta._id + "/edit/", role="button", aria-pressed="true")
+                                        a.btn.btn-primary.btn-sm.active.mr-3(href="/cartas/" + carta._id, role="button", aria-pressed="true")
                                             img(src="/images/pencil.svg")
                                         a.btn.btn-danger.btn-sm.active(href="/casrtas/" + carta._id + "/delete/", role="button", aria-pressed="true")
                                             img(src="/images/trash.svg")

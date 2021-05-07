@@ -1,0 +1,50 @@
+extends layout.pug
+
+block content 
+    div.container.m-5
+        div.row
+            div.offset-3.col-8
+                h3.text-muted.mb-5 Carta de #{carta.nino.nombreCompleto}
+                ul 
+                    li Paje: #{carta.paje.nombre} #{carta.paje.apellidos}
+                    li Niño: #{carta.nino.nombreCompleto}
+                    li Edad: #{carta.nino.edad}
+                    li Comportamiento: #{carta.nino.comportamiento}
+                    li Población: #{carta.nino.poblacion}
+                    li País: #{carta.nino.pais}
+                    li Juguetes 
+                    - var precioTotal = 0
+                    - var pesoTotal = 0
+                        table.table.table-striped.mt-5
+                            thead 
+                                th Nombre 
+                                th Precio 
+                                th Peso 
+                            tbody 
+                                each juguete in carta.peticiones 
+                                    tr 
+                                        td #{juguete.nombre}
+                                        td #{juguete.precio}€
+                                        td #{juguete.peso}kg
+                                        - precioTotal += juguete.precio
+                                        - pesoTotal += juguete.peso 
+                                tr 
+                                    td 
+                                        strong Totales  
+                                    td #{precioTotal}€
+                                    td #{pesoTotal}kg
+                    li Estado: 
+                        if (carta.aceptada)
+                            strong.text-info Aceptada 
+                        else 
+                            strong.text-danger Denegada
+                    li 
+                        form(action="/cartas/" + carta._id , method="post") 
+                            .form-group 
+                                label Aceptada
+                                input#aceptada(type="checkbox", name="aceptada", checked=carta.aceptada).form-control
+                            button(type="submit").btn.btn-primary Enviar
+                    if(errores)
+                        for error in errores
+                            div.alert.alert-danger #{error}
+                    
