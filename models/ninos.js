@@ -27,8 +27,10 @@ const ninoSchema = mongoose.Schema({
     }
 });
 
-ninoSchema.virtual('nombreCompleto').get(() => this.nombre + ' ' + this.apellidos);
-ninoSchema.virtual('edad').get(() => {
+ninoSchema.virtual('nombreCompleto').get(function () {
+    return this.nombre + ' ' + this.apellidos;
+});
+ninoSchema.virtual('edad').get(function () {
     let hoy = new Date;
     let nacimiento = new Date(this.fechaNacimiento);
     let edad = hoy.getFullYear() - nacimiento.getFullYear();

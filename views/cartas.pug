@@ -1,0 +1,26 @@
+extends layout.pug 
+
+block content 
+    div.container.m-5
+        div.row
+            div.offset-3.col-8
+                h3.text-muted.mb-5 Lista de cartas
+                a(href="/cartas/create", role="button", aria-pressed="true").btn.btn-warning.btn-sm.active.mr-3
+                    img(src="/images/pencil.svg")
+                if (sinCartas)
+                    p.font-weight-bold No se han encontrado cartas
+                else
+                    table.table.table-striped.mt-5
+                        thead
+                            tr
+                                th niño 
+                                th
+                        tbody
+                            for carta in cartas
+                                tr
+                                    td #{carta.nino.nombreCompleto}
+                                    td
+                                        a.btn.btn-primary.btn-sm.active.mr-3(href="/cartas/" + carta._id + "/edit/", role="button", aria-pressed="true")
+                                            img(src="/images/pencil.svg")
+                                        a.btn.btn-danger.btn-sm.active(href="/casrtas/" + carta._id + "/delete/", role="button", aria-pressed="true")
+                                            img(src="/images/trash.svg")
