@@ -19,8 +19,11 @@ router.get('/', (req, res) => {
     let filter = {};
     let pagina = 1;
     let paginas = 0;
+    let search = "";
+    let orderby = "nombre";
 
     if (req.query.search) {
+        search = req.query.search;
         let exp = new RegExp(req.query.search, 'i');
 		filter.nombre = exp;
     }
@@ -29,16 +32,22 @@ router.get('/', (req, res) => {
         pagina = req.query.pagina;
     }
 
+    if (req.query.orderby) {
+        orderby = req.query.orderby;
+    }
+
     Juguete.find(filter, (err, documents) => {
         paginas = documents.length / 10;
 
-        Juguete.find(filter).limit(10).skip((pagina - 1) * 10).exec((err, documents) => {
+        Juguete.find(filter).limit(10).skip((pagina - 1) * 10).sort(orderby).exec((err, documents) => {
 
             if (!err && documents.length > 0) {
                 req.reyes.juguetes = documents
                 req.reyes.pagina = pagina;
                 req.reyes.paginas = Math.ceil(paginas);
                 req.reyes.paginasArray = createPaginasArray(req.reyes.paginas);
+                req.reyes.search = search;
+                req.reyes.orderby = orderby;
                 res.render('juguetes', req.reyes);
             }
             else {

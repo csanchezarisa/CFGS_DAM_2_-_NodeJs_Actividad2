@@ -7,7 +7,12 @@ block content
                 h3.text-muted.mb-5 Lista de juguetes
                 form.form-horizontal(role="form", action="/juguetes", method="get")
                     div.input-group.mb-3
-                        input.form-control(type="text", name="search", placeholder="Buscar juguete...")
+                        input.form-control(type="text", name="search", placeholder="Buscar juguete...", value=search)
+                        select(name="orderby", value=orderby).custom-select.form-control
+                            option(value="nombre") Nombre 
+                            option(value="precio") Precio
+                            option(value="peso") Peso 
+                            option(value="stock") Stock   
                         div.input-group-append
                             button.btn.btn-primary(type="submit") Buscar
                 a(href="/juguetes/create", role="button", aria-pressed="true").btn.btn-warning.btn-sm.active.mr-3
@@ -39,28 +44,28 @@ block content
                         ul.pagination
                             if (pagina == 1 || !pagina)
                                 li.page-item.disabled
-                                    a.page-link(href='/juguetes/?pagina=1' aria-label='Previous')
+                                    a.page-link(href='/juguetes/?pagina=1&search=' + search + '&orderby=' + orderby, aria-label='Previous')
                                         span(aria-hidden='true') &laquo;
                                         span.sr-only Previous
                             else 
                                 li.page-item
-                                    a.page-link(href='/juguetes/?pagina=1' aria-label='Previous')
+                                    a.page-link(href='/juguetes/?pagina=1&search=' + search + '&orderby=' + orderby, aria-label='Previous')
                                         span(aria-hidden='true') &laquo;
                                         span.sr-only Previous
                             for paginaArray in paginasArray 
                                 if (paginaArray == pagina || !pagina)
                                     li.page-item.active
-                                        a.page-link(href='/juguetes/?pagina=' + paginaArray) #{paginaArray} 
+                                        a.page-link(href='/juguetes/?pagina=' + paginaArray + '&search=' + search + '&orderby=' + orderby) #{paginaArray} 
                                 else
                                     li.page-item 
-                                        a.page-link(href='/juguetes/?pagina=' + paginaArray) #{paginaArray}  
+                                        a.page-link(href='/juguetes/?pagina=' + paginaArray + '&search=' + search + '&orderby=' + orderby) #{paginaArray}  
                             if (pagina == paginas)
                                 li.page-item.disabled
-                                    a.page-link(href='/juguetes/?pagina=' + paginas, aria-label='Next')
+                                    a.page-link(href='/juguetes/?pagina=' + paginas + '&search=' + search + '&orderby=' + orderby, aria-label='Next')
                                         span(aria-hidden='true') &raquo;
                                         span.sr-only Next
                             else 
                                 li.page-item
-                                    a.page-link(href='/juguetes/?pagina=' + paginas, aria-label='Next')
+                                    a.page-link(href='/juguetes/?pagina=' + paginas + '&search=' + search + '&orderby=' + orderby, aria-label='Next')
                                         span(aria-hidden='true') &raquo;
                                         span.sr-only Next
